@@ -1,0 +1,7 @@
+bs4
+tld
+textblob
+numpy
+matplotlib
+scipy
+pandas
