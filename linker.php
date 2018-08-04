@@ -1,5 +1,6 @@
 <?php
-class Antesh{
+//Links PHP with Python
+class Linker{
 	private
 		//Configs
 		$_cmd_src = 'c:\WINDOWS\system32\cmd.exe', //OR 'cmd'

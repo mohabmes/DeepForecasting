@@ -1,12 +1,22 @@
 import os
 import sys
+import json
+
+with open('config.json') as f:
+    config = json.load(f)
 
 model_type_file = ""
 model_type = ""
 stock_name = ""
-path = "C:\\xampp\\htdocs\\deepforcasting\\tmpdata\\{}\\"
+path = config["data_dir"] + "{}\\"
+epochs_num_to_determin_model = config['nn_setups']['epochs_num_to_determin_model']
+epochs_num = config['nn_setups']['epochs_num']
 op = ""
 
+# csv_path = "." + path + "{}.csv".format(stock_name)
+# if not os.path.isfile(csv_path):
+#     print("heeeew")
+# exit()
 
 if sys.argv[0] and sys.argv[1] and sys.argv[2] != "":
     op = sys.argv[2]
@@ -16,23 +26,29 @@ if sys.argv[0] and sys.argv[1] and sys.argv[2] != "":
     print(path)
     
 if not os.path.isfile(model_type_file):
-    error = "error : '{}' Not Found!".format(model_type_file)
+    error = "'{}' Not Found!".format(model_type_file)
     print(error)
-    
+    print("Determin model type ...")
+
+    print("Activate Tensorflow ...")
     from bootstrap import determin_model
     import preprocess as prep
-    
-    csv_path = path + "{}.csv".format(stock_name)
+
+    print("Reading csv file ...")
+    csv_path = "..\\" + path + "{}.csv".format(stock_name)
+
+    print("Dataset preprocessing ...")
     scaler, X_train, X_test, y_train, y_test = prep.preprocess(csv_path)
+
+    print("Training phase ...")
+    model_type = determin_model(stock_name, scaler, X_train, X_test, y_train, path="..\\"+path, epochs=epochs_num_to_determin_model)
     
-    model_type = determin_model(stock_name, scaler, X_train, X_test, y_train, path=path, epochs=1)
-    
-    f=open(model_type_file, "w")
-    f.write(model_type)
+    f=open("..\\"+model_type_file, "w")
+    f.write("..\\"+model_type)
     f.close()
     
 else:
-    f=open(model_type_file, "r")
+    f=open("..\\"+model_type_file, "r")
     model_type = f.read()
     print(model_type)
 
@@ -54,19 +70,21 @@ if not os.path.exists(path):
 
 
 csv_path = path + "{}.csv".format(stock_name)
+
+print("Dataset preprocessing ...")
 scaler, X_train, X_test, y_train, y_test = prep.preprocess(csv_path)
 
 X = X_test[len(X_test)-1]
 
 if op == "--train":
-    regressor = dl.train(X_train, y_train, epochs = 1)
+    regressor = dl.train(X_train, y_train, epochs = epochs_num)
     dl.save_model(stock_name, regressor, path=path)
     
     
 elif op == "--retrain":
     # path of the old model
     old_model = path + "{}-{}.h5".format(stock_name, model_type)
-    regressor = dl.retrain(old_model, X_train, y_train, epochs = 1)
+    regressor = dl.retrain(old_model, X_train, y_train, epochs = epochs_num)
     dl.save_model(stock_name, regressor, path=path)
     
 elif op == "--test":
@@ -75,7 +93,7 @@ elif op == "--test":
     _mse, _mape = dl.test(model_path, scaler, X_test)
     print(_mse, _mape)
 
-
+print("prediction ...")
 model_path = path + "{}-{}.h5".format(stock_name, model_type)
 prediction = dl.predict(model_path, scaler, X)
 print(str(prediction[1]))
