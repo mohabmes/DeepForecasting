@@ -1,0 +1,22 @@
+{
+	"data_dir": ".\\tmpdata\\",
+	"historical_data": {
+		"from_date": {
+			"d": 25,
+			"m": 1,
+			"y": 2011
+		}
+	},
+	"nn_setups": {
+		"epochs_num": 1,
+        "epochs_num_to_determin_model":1
+	},
+	"linker": {
+		"Anaconda_env": {
+			"activate": "C:\\Users\\mmes\\Anaconda3\\Scripts\\activate.bat",
+			"py": "C:\\Users\\mmes\\Anaconda3\\envs\\tensorflow\\python.exe",
+			"name": "tensorflow"
+		},
+		"cmd": "c:\\WINDOWS\\system32\\cmd.exe"
+	}
+}
