@@ -13,10 +13,6 @@ epochs_num_to_determin_model = config['nn_setups']['epochs_num_to_determin_model
 epochs_num = config['nn_setups']['epochs_num']
 op = ""
 
-# csv_path = "." + path + "{}.csv".format(stock_name)
-# if not os.path.isfile(csv_path):
-#     print("heeeew")
-# exit()
 
 if sys.argv[0] and sys.argv[1] and sys.argv[2] != "":
     op = sys.argv[2]
