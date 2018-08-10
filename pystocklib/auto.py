@@ -19,7 +19,7 @@ if not os.path.exists(path):
     os.makedirs(path)
 
 # fetch Historical Data
-hist = HistoricalData(stock_name, from_date=[2015, 1, 1], to_date=[2018, 6, 30], path=path)
+hist = HistoricalData(stock_name, from_date=[2015, 1, 1], to_date=[2018, 6, 1], path=path)
 hist.create_csv()
 hist.info_plot('Open', 'Close')
 

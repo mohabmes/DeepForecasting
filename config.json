@@ -8,8 +8,8 @@
 		}
 	},
 	"nn_setups": {
-		"epochs_num": 1,
-        "epochs_num_to_determin_model":1
+		"epochs_num": 25,
+        "epochs_num_to_determin_model":25
 	},
 	"linker": {
 		"Anaconda_env": {

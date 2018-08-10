@@ -35,20 +35,20 @@ if not os.path.isfile(model_type_file):
     import preprocess as prep
 
     print("Reading csv file ...")
-    csv_path = "..\\" + path + "{}.csv".format(stock_name)
+    csv_path = path + "{}.csv".format(stock_name)
 
     print("Dataset preprocessing ...")
     scaler, X_train, X_test, y_train, y_test = prep.preprocess(csv_path)
 
     print("Training phase ...")
-    model_type = determin_model(stock_name, scaler, X_train, X_test, y_train, path="..\\"+path, epochs=epochs_num_to_determin_model)
+    model_type = determin_model(stock_name, scaler, X_train, X_test, y_train, path=path, epochs=epochs_num_to_determin_model)
     
-    f=open("..\\"+model_type_file, "w")
-    f.write("..\\"+model_type)
+    f=open(model_type_file, "w")
+    f.write(model_type)
     f.close()
     
 else:
-    f=open("..\\"+model_type_file, "r")
+    f=open(model_type_file, "r")
     model_type = f.read()
     print(model_type)
 
